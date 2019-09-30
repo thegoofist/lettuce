@@ -1,0 +1,36 @@
+
+* Lettuce: The Boring Filler 
+
+  Lettuce is a couple of macros for binding a variable using let whenever the
+  value to-be-bound is non-nil, and then executing some code block.
+
+  They're basically anaphoric macros without the anaphor - i.e. you say what
+  name you want.
+
+  #+begin_src lisp 
+
+    (let-when (x (find-if #'evenp '(1 3 5 6 7)))
+        (list x x))
+    
+    ; (6 6)
+
+    (let-when (x (find-if #'evenp '(1 3)))
+        (list x x))
+    ; NIL
+
+    (let-if (x (find-if #'evenp '(1 3)))
+        (list nil nil)
+        :nope)
+
+    ; :NOPE 
+
+    (let-cond 
+       (even (find-if #'evenp '(1 3))
+             (list even even))
+       (odd  (find-if-not #'evenp '(1 3))
+             (list odd odd odd))
+       (t "Nope!"))
+
+     ; (1 1 1)
+
+  #+end_src
